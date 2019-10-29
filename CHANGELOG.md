@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.3.11] - 2019-29-10
+### Fixed
+
+- Fix problem with wait ticks. They do not lock the system now.
+
 ## [1.3.9] - 2019-27-10
 ### Added
 
