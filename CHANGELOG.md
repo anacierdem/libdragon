@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.3.x] -
+### Changed
+
+- install with `npm ci` on Travis.
+
 ## [1.3.15] - 2019-01-11
 ### Changed
 

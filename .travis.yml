@@ -12,7 +12,7 @@ os:
   - linux
 
 install:
-  - npm install
+  - npm ci
 
 script:
   - npm run download
