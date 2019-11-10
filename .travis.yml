@@ -12,7 +12,8 @@ os:
   - linux
 
 install:
-  - npm install
+  - npm ci
+  - git submodule update --init
 
 script:
   - npm run download
