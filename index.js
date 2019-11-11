@@ -55,13 +55,13 @@ async function startToolchain() {
     + ' -e LIBDRAGON_VERSION_MINOR=' + options.VERSION[1]
     + ' -e LIBDRAGON_VERSION_REVISION=' + options.VERSION[2];
 
-  // Use only base version on CI to test make && make install only
+  // Always start freshly built version
   await runCommand('docker run --name=' + options.PROJECT_NAME
     + (options.BYTE_SWAP ? ' -e N64_BYTE_SWAP=true' : '')
     + ' -e IS_DOCKER=true'
     + versionEnv
     + ' -d --mount type=bind,source="' + options.MOUNT_PATH + '",target=/' + options.PROJECT_NAME
-    + ' -w="/' + options.PROJECT_NAME + '" ' + DOCKER_HUB_NAME + ':' + (options.IS_CI ? BASE_VERSION : version) + ' tail -f /dev/null');
+    + ' -w="/' + options.PROJECT_NAME + '" ' + DOCKER_HUB_NAME + ':' + version + ' tail -f /dev/null');
 }
 
 async function make(param) {
@@ -109,6 +109,8 @@ async function buildDragon() {
     + ' --build-arg LIBDRAGON_VERSION_MINOR=' + options.VERSION[1]
     + ' --build-arg LIBDRAGON_VERSION_REVISION=' + options.VERSION[2]
     + ' -t ' + DOCKER_HUB_NAME + ':' + version + ' -f ./dragon.Dockerfile ./');
+  // Start freshly built image
+  await startToolchain();
 }
 
 const availableActions = {
