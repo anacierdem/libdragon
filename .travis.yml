@@ -16,9 +16,16 @@ install:
   - git submodule update --init
 
 script:
+  # Download base image only
   - npm run download
+  # Build and install libdragon & mikmod - test docker script & build
+  - node index.js --mount-path=./libdragon-source update
+  # Test NPM scripts to check if they are also working propoerly
   - npm run make
   - npm run make install
+  - npm run make tools
+  - npm run make tools-install
+  # Test if examples are building properly
   - npm run make examples
 
 deploy:

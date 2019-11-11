@@ -59,7 +59,7 @@ async function startToolchain() {
   await runCommand('docker run --name=' + options.PROJECT_NAME
     + (options.BYTE_SWAP ? ' -e N64_BYTE_SWAP=true' : '')
     + ' -e IS_DOCKER=true'
-    + (options.IS_CI ? '' : versionEnv)
+    + versionEnv
     + ' -d --mount type=bind,source="' + options.MOUNT_PATH + '",target=/' + options.PROJECT_NAME
     + ' -w="/' + options.PROJECT_NAME + '" ' + DOCKER_HUB_NAME + ':' + (options.IS_CI ? BASE_VERSION : version) + ' tail -f /dev/null');
 }
