@@ -19,7 +19,7 @@ script:
   # Download base image only
   - npm run download
   # Build and install libdragon & mikmod - test docker script & build
-  - node index.js --mount-path=./libdragon-source update
+  - npm run buildDragon
   # Test NPM scripts to check if they are also working propoerly
   - npm run make
   - npm run make install

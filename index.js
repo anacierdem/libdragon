@@ -100,7 +100,7 @@ async function stop() {
   }
 }
 
-async function runUpdate() {
+async function buildDragon() {
   await runCommand('docker build'
     + ' --build-arg DOCKER_HUB_NAME=' + DOCKER_HUB_NAME
     + ' --build-arg BASE_VERSION=' + BASE_VERSION
@@ -108,7 +108,7 @@ async function runUpdate() {
     + ' --build-arg LIBDRAGON_VERSION_MAJOR=' + options.VERSION[0]
     + ' --build-arg LIBDRAGON_VERSION_MINOR=' + options.VERSION[1]
     + ' --build-arg LIBDRAGON_VERSION_REVISION=' + options.VERSION[2]
-    + ' -t ' + DOCKER_HUB_NAME + ':' + version + ' -f ./update.Dockerfile ./');
+    + ' -t ' + DOCKER_HUB_NAME + ':' + version + ' -f ./dragon.Dockerfile ./');
 }
 
 const availableActions = {
@@ -128,7 +128,7 @@ const availableActions = {
       + ' -t ' + DOCKER_HUB_NAME + ':' + BASE_VERSION + ' ./');
 
     // Build and install libdragon
-    await runUpdate();
+    await buildDragon();
     await startToolchain();
   },
   install: async function install() {
@@ -183,6 +183,7 @@ const availableActions = {
   },
   make: make,
   stop: stop,
+  buildDragon: buildDragon,
   // This requires docker login
   update: async function update() {
     // Do not try to run docker if already in container
@@ -190,7 +191,7 @@ const availableActions = {
       return;
     }
     await stop();
-    await runUpdate();
+    // We assume buildDragon was run.
     await runCommand('docker push ' + DOCKER_HUB_NAME + ':' + version);
 
     if (UPDATE_LATEST) {
