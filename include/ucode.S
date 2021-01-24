@@ -415,24 +415,36 @@ makeStoreInstruction swv, 0b00111, 4
     .data
     .org 0 # make sure we are also at the start of data section
     .offset 0 # Set offset into the absolute section
+
+    .macro .noreloc_fill type, first, values:vararg
+        .ifb \values
+            \type 0x0
+        .else
+            \type 0x0
+            .noreloc_fill \type \values
+        .endif
+    .endm
+
+    .macro .noreloc type, values:vararg
+        .noreloc_fill \type \values
+        .data
+        \type \values
+        .previous
+    .endm
+
+    .macro .dmemoffset offset fill
+        .offset \offset
+        .data
+        .org \offset , \fill
+        .previous
+    .endm
 .endm
 
 .macro .endmem
+    .purgem .noreloc_fill
+    .purgem .noreloc
+    .purgem .dmemoffset
     .data
-.endm
-
-.macro .noreloc type, value
-    \type 0x0
-    .data
-    \type \value
-    .previous
-.endm
-
-.macro .dmemoffset offset fill
-    .offset \offset
-    .data
-    .org \offset , \fill
-    .previous
 .endm
 
 #define neg(X) -(0x1000-X)
