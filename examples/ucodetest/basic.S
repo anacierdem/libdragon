@@ -1,18 +1,29 @@
 #include <ucode.S>
+
 .text
 
-lqv $v01, 0, 0, $2
+llv $v01, 0, %lo(label1)
+llv $v01, 0, %lo(label2)
+llv $v01, 0, %lo(neg(label3))
 
-vabs $v01, $v02, $v03, 1
-lhv $v01, 15, 0, $2
-lw $v00, var1
-sw $9, var2
-break
+.dmem
 
-deadloop:
-	j deadloop
-	nop
+label1:
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
+label2:
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
+.noreloc .word 0xDEADBEEF
 
-.data
-var1: .word 0xDEADBEEF
-var2: .word 0xBEEFF00D
+.dmemoffset 0x1000-16
+
+label3:
+.noreloc .word 0xDEADBEEF
+
+.endmem
+
+

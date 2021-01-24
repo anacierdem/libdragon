@@ -191,13 +191,13 @@ makeNotImplemented tnei
 /** @brief Syntactic sugar for lwc2 instuctions */
 .macro loadVector, opcode, vt, element, offset, base
     renameRegisters
-    lwc2 \vt, (\opcode << 11 | \element << 7 | \offset) (\base)
+    lwc2 \vt, \offset + (\opcode << 11 | \element << 7) (\base)
 .endm
 
 /** @brief Syntactic sugar for swc2 instuctions */
 .macro storeVector opcode, vt, element, offset, base
     renameRegisters
-    swc2 \vt, (\opcode << 11 | \element << 7 | \offset) (\base)
+    swc2 \vt, \offset + (\opcode << 11 | \element << 7) (\base)
 .endm
 
 .macro makeOpInstruction name, opcode
@@ -210,44 +210,52 @@ makeNotImplemented tnei
     .endm
 .endm
 
-.macro makeLoadInstruction name, opcode
-    .macro \name vt, element, offset, base
-        .ifgt (\element >> 4)
-            .error "Invalid element"
+.macro makeLoadInstruction name, opcode, shift=0
+    .macro \name vt, element, offset, base=zero
+        .ifc \base,zero
+            loadVector \opcode, \vt, \element, \offset >> \shift & 0b1111111, $0
         .else
-            .ifge (\offset)
-                .ifgt (\offset - 63)
-                    .error "Invalid offset - valid range: [-64, 63]"
-                .else
-                    loadVector \opcode, \vt, \element, \offset, \base
-                .endif
+            .ifgt (\element >> 4)
+                .error "Invalid element"
             .else
-                .iflt (\offset + 64)
-                    .error "Invalid offset - valid range: [-64, 63]"
+                .ifge (\offset)
+                    .ifgt (\offset - 63)
+                        .error "Invalid offset - valid range: [-64, 63]"
+                    .else
+                        loadVector \opcode, \vt, \element, \offset, \base
+                    .endif
                 .else
-                    loadVector \opcode, \vt, \element, (128 + \offset), \base
+                    .iflt (\offset + 64)
+                        .error "Invalid offset - valid range: [-64, 63]"
+                    .else
+                        loadVector \opcode, \vt, \element, (128 + \offset), \base
+                    .endif
                 .endif
             .endif
         .endif
     .endm
 .endm
 
-.macro makeStoreInstruction name, opcode
-    .macro \name vt, element, offset, base
-        .ifgt (\element >> 4)
-            .error "Invalid element"
+.macro makeStoreInstruction name, opcode, shift=0
+    .macro \name vt, element, offset, base=zero
+        .ifc \base,zero
+            storeVector \opcode, \vt, \element, \offset >> \shift & 0b1111111, $0
         .else
-            .ifge (\offset)
-                .ifgt (\offset - 63)
-                    .error "Invalid offset - valid range: [-64, 63]"
-                .else
-                    storeVector \opcode, \vt, \element, \offset, \base
-                .endif
+            .ifgt (\element >> 4)
+                .error "Invalid element"
             .else
-                .iflt (\offset + 64)
-                    .error "Invalid offset - valid range: [-64, 63]"
+                .ifge (\offset)
+                    .ifgt (\offset - 63)
+                        .error "Invalid offset - valid range: [-64, 63]"
+                    .else
+                        storeVector \opcode, \vt, \element, \offset, \base
+                    .endif
                 .else
-                    storeVector \opcode, \vt, \element, (128 + \offset), \base
+                    .iflt (\offset + 64)
+                        .error "Invalid offset - valid range: [-64, 63]"
+                    .else
+                        storeVector \opcode, \vt, \element, (128 + \offset), \base
+                    .endif
                 .endif
             .endif
         .endif
@@ -346,50 +354,50 @@ makeOpInstruction vxor, 0b101100
 /** @brief Load Byte into Vector Register */
 makeLoadInstruction lbv, 0b00000
 /** @brief Load Double into Vector Register */
-makeLoadInstruction ldv, 0b00011
+makeLoadInstruction ldv, 0b00011, 3
 /** @brief Load Packed Fourth into Vector Register */
-makeLoadInstruction lfv, 0b01001
+makeLoadInstruction lfv, 0b01001, 4
 /** @brief Load Packed Half into Vector Register */
-makeLoadInstruction lhv, 0b01000
+makeLoadInstruction lhv, 0b01000, 4
 /** @brief Load Long into Vector Register */
-makeLoadInstruction llv, 0b00010
+makeLoadInstruction llv, 0b00010, 2
 /** @brief Load Packed Bytes into Vector Register */
-makeLoadInstruction lpv, 0b00110
+makeLoadInstruction lpv, 0b00110, 3
 /** @brief Load Quad into Vector Register */
-makeLoadInstruction lqv, 0b00100
+makeLoadInstruction lqv, 0b00100, 4
 /** @brief Load Quad (Rest) into Vector Register */
-makeLoadInstruction lrv, 0b00101
+makeLoadInstruction lrv, 0b00101, 4
 /** @brief Load Short into Vector Register */
-makeLoadInstruction lsv, 0b00001
+makeLoadInstruction lsv, 0b00001, 1
 /** @brief Load Transpose into Vector Register */
-makeLoadInstruction ltv, 0b01011
+makeLoadInstruction ltv, 0b01011, 4
 /** @brief Load Unsigned Packed into Vector Register */
-makeLoadInstruction luv, 0b00111
+makeLoadInstruction luv, 0b00111, 3
 
 /** @brief Store Byte from Vector Register */
 makeStoreInstruction sbv, 0b00000
 /** @brief Store Double from Vector Register */
-makeStoreInstruction sdv, 0b00011
+makeStoreInstruction sdv, 0b00011, 3
 /** @brief Store Packed Fourth from Vector Register */
-makeStoreInstruction sfv, 0b01001
+makeStoreInstruction sfv, 0b01001, 4
 /** @brief Store Packed Half from Vector Register */
-makeStoreInstruction shv, 0b01000
+makeStoreInstruction shv, 0b01000, 4
 /** @brief Store Long from Vector Register */
-makeStoreInstruction slv, 0b00010
+makeStoreInstruction slv, 0b00010, 2
 /** @brief Store Packed Bytes from Vector Register */
-makeStoreInstruction spv, 0b00110
+makeStoreInstruction spv, 0b00110, 3
 /** @brief Store Quad from Vector Register */
-makeStoreInstruction sqv, 0b00100
+makeStoreInstruction sqv, 0b00100, 4
 /** @brief Store Quad (Rest) from Vector Register */
-makeStoreInstruction srv, 0b00101
+makeStoreInstruction srv, 0b00101, 4
 /** @brief Store Short from Vector Register */
-makeStoreInstruction ssv, 0b00001
+makeStoreInstruction ssv, 0b00001, 1
 /** @brief Store Transpose from Vector Register */
-makeStoreInstruction stv, 0b01011
+makeStoreInstruction stv, 0b01011, 4
 /** @brief Store Unsigned Packed from Vector Register */
-makeStoreInstruction suv, 0b00111
+makeStoreInstruction suv, 0b00111, 3
 /** @brief Store Wrapped vector from Vector Register */
-makeStoreInstruction swv, 0b00111
+makeStoreInstruction swv, 0b00111, 4
 
 .macro mtc2 reg, vreg, element
     hexRegisters
@@ -402,3 +410,29 @@ makeStoreInstruction swv, 0b00111
     hexGeneralRegisters
     .long (0x12 << 26 | 0x0 << 21 | \vreg << 11 | hex.\reg << 16 | \element << 7)
 .endm
+
+.macro .dmem
+    .data
+    .org 0 # make sure we are also at the start of data section
+    .offset 0 # Set offset into the absolute section
+.endm
+
+.macro .endmem
+    .data
+.endm
+
+.macro .noreloc type, value
+    \type 0x0
+    .data
+    \type \value
+    .previous
+.endm
+
+.macro .dmemoffset offset fill
+    .offset \offset
+    .data
+    .org \offset , \fill
+    .previous
+.endm
+
+#define neg(X) -(0x1000-X)
