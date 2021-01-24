@@ -213,7 +213,7 @@ makeNotImplemented tnei
 .macro makeLoadInstruction name, opcode, shift=0
     .macro \name vt, element, offset, base=zero
         .ifc \base,zero
-            loadVector \opcode, \vt, \element, \offset >> \shift & 0b1111111, $0
+            loadVector \opcode, \vt, \element, %lo(-(0x1000-\offset)) >> \shift & 0b1111111, $0
         .else
             .ifgt (\element >> 4)
                 .error "Invalid element"
@@ -239,7 +239,7 @@ makeNotImplemented tnei
 .macro makeStoreInstruction name, opcode, shift=0
     .macro \name vt, element, offset, base=zero
         .ifc \base,zero
-            storeVector \opcode, \vt, \element, \offset >> \shift & 0b1111111, $0
+            storeVector \opcode, \vt, \element, %lo(-(0x1000-\offset)) >> \shift & 0b1111111, $0
         .else
             .ifgt (\element >> 4)
                 .error "Invalid element"
@@ -416,17 +416,36 @@ makeStoreInstruction swv, 0b00111, 4
     .org 0 # make sure we are also at the start of data section
     .offset 0 # Set offset into the absolute section
 
-    .macro .noreloc_fill type, first, values:vararg
+    .macro .insertMultipleZeros type, first, values:vararg
         .ifb \values
             \type 0x0
         .else
             \type 0x0
-            .noreloc_fill \type \values
+            .insertMultipleZeros \type \values
         .endif
     .endm
 
     .macro .noreloc type, values:vararg
-        .noreloc_fill \type \values
+        .ifnc \type,.word
+        .ifnc \type,.byte
+        .ifnc \type,.hword
+        .ifnc \type,.int
+        .ifnc \type,.long
+        .ifnc \type,.short
+        .ifnc \type,.sleb128
+        .ifnc \type,.uleb128
+            .error "Invalid value type"
+            .exitm
+        .endif
+        .endif
+        .endif
+        .endif
+        .endif
+        .endif
+        .endif
+        .endif
+
+        .insertMultipleZeros \type \values
         .data
         \type \values
         .previous
@@ -441,10 +460,8 @@ makeStoreInstruction swv, 0b00111, 4
 .endm
 
 .macro .endmem
-    .purgem .noreloc_fill
+    .purgem .insertMultipleZeros
     .purgem .noreloc
     .purgem .dmemoffset
     .data
 .endm
-
-#define neg(X) -(0x1000-X)

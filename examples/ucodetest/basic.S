@@ -2,9 +2,10 @@
 
 .text
 
-llv $v01, 0, %lo(label1)
-llv $v01, 0, %lo(label2)
-llv $v01, 0, %lo(neg(label_neg))
+llv $v01, 0, label1
+llv $v01, 0, label2
+llv $v01, 0, 4, $0
+llv $v01, 0, label_neg
 
 lw $1, %lo(label2)($0)
 
@@ -17,11 +18,6 @@ label2:
 .word 0xDEADBEEF
 .word 0xDEADBEEF
 .word 0xDEADBEEF
-label3:
-.word 0xBEEFF00D
-.word 0xBEEFF00D
-.word 0xBEEFF00D
-.word 0xBEEFF00D
 
 .dmemoffset 0x1000-16
 
