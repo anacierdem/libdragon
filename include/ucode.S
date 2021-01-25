@@ -1,3 +1,6 @@
+#ifndef UCODE_S
+#define UCODE_S
+
 # Not implemented
 .macro makeNotImplemented name
     .macro \name _:vararg
@@ -379,57 +382,4 @@ makeStoreInstruction swv, 0b00111, 4
     .long (0x12 << 26 | 0x0 << 21 | \vreg << 11 | hex.\reg << 16 | \element << 7)
 .endm
 
-.macro .dmem
-    .data
-    .org 0 # make sure we are also at the start of data section
-    .offset 0 # Set offset into the absolute section
-
-    .macro .insertMultipleZeros type, first, values:vararg
-        .ifb \values
-            \type 0x0
-        .else
-            \type 0x0
-            .insertMultipleZeros \type \values
-        .endif
-    .endm
-
-    .macro .noreloc type, values:vararg
-        .ifnc \type,.word
-        .ifnc \type,.byte
-        .ifnc \type,.hword
-        .ifnc \type,.int
-        .ifnc \type,.long
-        .ifnc \type,.short
-        .ifnc \type,.sleb128
-        .ifnc \type,.uleb128
-            .error "Invalid value type"
-            .exitm
-        .endif
-        .endif
-        .endif
-        .endif
-        .endif
-        .endif
-        .endif
-        .endif
-
-        .insertMultipleZeros \type \values
-        .data
-        \type \values
-        .previous
-    .endm
-
-    .macro .dmemoffset offset fill
-        .offset \offset
-        .data
-        .org \offset , \fill
-        .previous
-    .endm
-.endm
-
-.macro .endmem
-    .purgem .insertMultipleZeros
-    .purgem .noreloc
-    .purgem .dmemoffset
-    .data
-.endm
+#endif
