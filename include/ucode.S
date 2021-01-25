@@ -191,13 +191,13 @@ makeNotImplemented tnei
 /** @brief Syntactic sugar for lwc2 instuctions */
 .macro loadVector, opcode, vt, element, offset, base
     renameRegisters
-    lwc2 \vt, \offset + (\opcode << 11 | \element << 7) (\base)
+    lwc2 \vt, \offset & 0b1111111 + (\opcode << 11 | \element << 7) (\base)
 .endm
 
 /** @brief Syntactic sugar for swc2 instuctions */
 .macro storeVector opcode, vt, element, offset, base
     renameRegisters
-    swc2 \vt, \offset + (\opcode << 11 | \element << 7) (\base)
+    swc2 \vt, \offset & 0b1111111 + (\opcode << 11 | \element << 7) (\base)
 .endm
 
 .macro makeOpInstruction name, opcode
@@ -211,53 +211,21 @@ makeNotImplemented tnei
 .endm
 
 .macro makeLoadInstruction name, opcode, shift=0
-    .macro \name vt, element, offset, base=zero
-        .ifc \base,zero
-            loadVector \opcode, \vt, \element, %lo(-(0x1000-\offset)) >> \shift & 0b1111111, $0
+    .macro \name vt, element=0, offset=0, base
+        .ifndef noshiftoffset # This is primarily for backwards-compatibility
+            loadVector \opcode, \vt, \element, \offset >> \shift, \base
         .else
-            .ifgt (\element >> 4)
-                .error "Invalid element"
-            .else
-                .ifge (\offset)
-                    .ifgt (\offset - 63)
-                        .error "Invalid offset - valid range: [-64, 63]"
-                    .else
-                        loadVector \opcode, \vt, \element, \offset, \base
-                    .endif
-                .else
-                    .iflt (\offset + 64)
-                        .error "Invalid offset - valid range: [-64, 63]"
-                    .else
-                        loadVector \opcode, \vt, \element, (128 + \offset), \base
-                    .endif
-                .endif
-            .endif
+            loadVector \opcode, \vt, \element, \offset, \base
         .endif
     .endm
 .endm
 
 .macro makeStoreInstruction name, opcode, shift=0
-    .macro \name vt, element, offset, base=zero
-        .ifc \base,zero
-            storeVector \opcode, \vt, \element, %lo(-(0x1000-\offset)) >> \shift & 0b1111111, $0
+    .macro \name vt, element=0, offset=0, base
+        .ifndef noshiftoffset # This is primarily for backwards-compatibility
+            storeVector \opcode, \vt, \element, \offset >> \shift, \base
         .else
-            .ifgt (\element >> 4)
-                .error "Invalid element"
-            .else
-                .ifge (\offset)
-                    .ifgt (\offset - 63)
-                        .error "Invalid offset - valid range: [-64, 63]"
-                    .else
-                        storeVector \opcode, \vt, \element, \offset, \base
-                    .endif
-                .else
-                    .iflt (\offset + 64)
-                        .error "Invalid offset - valid range: [-64, 63]"
-                    .else
-                        storeVector \opcode, \vt, \element, (128 + \offset), \base
-                    .endif
-                .endif
-            .endif
+            storeVector \opcode, \vt, \element, \offset, \base
         .endif
     .endm
 .endm
