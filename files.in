@@ -19,8 +19,12 @@ OFILES_LD += $(CURDIR)/build/exception.o
 OFILES_LD += $(CURDIR)/build/do_ctors.o
 
 OFILES_LDS  = $(CURDIR)/build/system.o
+OFILES_LDS += $(CURDIR)/build/debug.o
 
 # Rules for compiling system stuff
+$(CURDIR)/build/debug.o: $(CURDIR)/src/debug.c
+	mkdir -p $(CURDIR)/build
+	$(CC) $(CFLAGS) -c -o $(CURDIR)/build/debug.o $(CURDIR)/src/debug.c
 $(CURDIR)/build/n64sys.o: $(CURDIR)/src/n64sys.c
 	mkdir -p $(CURDIR)/build
 	$(CC) $(CFLAGS) -c -o $(CURDIR)/build/n64sys.o $(CURDIR)/src/n64sys.c

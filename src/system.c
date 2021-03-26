@@ -104,7 +104,7 @@ struct timeval;
 /**
  * @brief Definition of errno, as it's defined as extern across stdlib
  */
-int errno;
+int __attribute__ ((weak)) errno;
 
 /* Externs from libdragon */
 extern int __bootcic;
