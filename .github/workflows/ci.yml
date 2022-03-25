@@ -27,7 +27,7 @@ jobs:
       # a repo name on GitHub can have uppercase letters.
       - name: Downcase repository name
         run: |
-          echo "GITHUB_REPOSITORY_LOWERCASE=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+          echo "GITHUB_REPOSITORY_LOWERCASE=$(echo ${GITHUB_REPOSITORY/$GITHUB_REPOSITORY_OWNER/$GITHUB_ACTOR} | sed -e 's/\(.*\)/\L\1/')" >>${GITHUB_ENV}
 
       # We first compare the default branch to the event commit. In case this is
       # the default branch, this should return 0, skipping the build and using
