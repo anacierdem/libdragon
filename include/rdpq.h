@@ -75,6 +75,10 @@ enum {
 #define AUTOSYNC_TMEMS    (0xFF << 8)
 #define AUTOSYNC_PIPE     (1    << 16)
 
+#define RDPQ_FRAC_2_DECIMAL(n)   ((n) * (100LLU / 4))
+#define RDPQ_FRAC_11_DECIMAL(n)   ((n) * (100000000LLu / 0x1000u))
+#define RDPQ_FRAC_16_DECIMAL(n)   ((n) * (100000000LLu / 0x20000u))
+
 /** @brief Used internally for bit-packing RDP commands. */
 #define _carg(value, mask, shift) (((uint32_t)((value) & mask)) << shift)
 
@@ -527,6 +531,8 @@ inline void rdpq_set_lookup_address(uint8_t index, void* rdram_addr)
     extern void __rdpq_dynamic_write8(uint32_t, uint32_t, uint32_t);
     __rdpq_dynamic_write8(RDPQ_CMD_SET_LOOKUP_ADDRESS, index << 2, PhysicalAddr(rdram_addr));
 }
+
+void rdpq_disasm(uint32_t* start_at, size_t size);
 
 #ifdef __cplusplus
 }

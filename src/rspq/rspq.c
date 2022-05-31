@@ -172,6 +172,7 @@
 #include "rspq_constants.h"
 #include "rdp.h"
 #include "rdpq/rdpq_block.h"
+#include "rdpq.h"
 #include "interrupt.h"
 #include "utils.h"
 #include "n64sys.h"
@@ -438,6 +439,10 @@ static void rspq_crash_handler(rsp_snapshot_t *state)
         }
         debugf("\n");
     }
+
+    // debugf("q is: %p\n", q);
+
+    // rdpq_disasm(q-(2*32), 64*8);
 }
 
 /** @brief Special RSP assert handler for ASSERT_INVALID_COMMAND */
