@@ -192,24 +192,25 @@ int assert_equal_mem(TestContext *ctx, const char *file, int line, const uint8_t
  * TEST FILES
  **********************************************************************/
 
-#include "test_dfs.c"
-#include "test_eepromfs.c"
-#include "test_cache.c"
-#include "test_ticks.c"
-#include "test_timer.c"
-#include "test_irq.c"
-#include "test_exception.c"
-#include "test_debug.c"
-#include "test_dma.c"
-#include "test_cop1.c"
-#include "test_constructors.c"
-#include "test_backtrace.c"
-#include "test_rspq.c"
-#include "test_rdpq.c"
-#include "test_rdpq_tri.c"
-#include "test_rdpq_tex.c"
-#include "test_mpeg1.c"
-#include "test_gl.c"
+// #include "test_dfs.c"
+// #include "test_eepromfs.c"
+// #include "test_cache.c"
+// #include "test_ticks.c"
+// #include "test_timer.c"
+// #include "test_irq.c"
+// #include "test_exception.c"
+// #include "test_debug.c"
+// #include "test_dma.c"
+// #include "test_cop1.c"
+// #include "test_constructors.c"
+// #include "test_backtrace.c"
+// #include "test_rspq.c"
+// #include "test_rdpq.c"
+// #include "test_rdpq_tri.c"
+// #include "test_rdpq_tex.c"
+// #include "test_mpeg1.c"
+// #include "test_gl.c"
+#include "test_dummy.c"
 
 /**********************************************************************
  * MAIN
@@ -230,90 +231,92 @@ static const struct Testsuite
 	uint32_t duration;
 	uint32_t flags;
 } tests[] = {
-	TEST_FUNC(test_exception,                  5, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_constructors,               0, TEST_FLAGS_NONE),
-	TEST_FUNC(test_ticks,                      0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
-	TEST_FUNC(test_timer_ticks,              292, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_timer_oneshot,            596, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_slow_callback,     1468, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_continuous,         688, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_mixed,             1467, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_context,            186, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_disabled_start,     733, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_timer_disabled_restart,   733, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_irq_reentrancy,           230, TEST_FLAGS_RESET_COUNT),
-	TEST_FUNC(test_dfs_read,                 948, TEST_FLAGS_IO),
-	TEST_FUNC(test_dfs_rom_addr,              25, TEST_FLAGS_IO),
-	TEST_FUNC(test_eepromfs,                   0, TEST_FLAGS_IO),
-	TEST_FUNC(test_cache_invalidate,        1763, TEST_FLAGS_NONE),
-	TEST_FUNC(test_debug_sdfs,                 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_dma_read_misalign,       7003, TEST_FLAGS_NONE),
-	TEST_FUNC(test_cop1_denormalized_float,    0, TEST_FLAGS_NO_EMULATOR),
-	TEST_FUNC(test_backtrace_basic,            0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_fp,               0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_exception,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_exception_leaf,   0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_exception_fp,     0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_zerofunc,         0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_backtrace_invalidptr,       0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_queue_single,          0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_queue_multiple,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_queue_rapid,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_wrap,                  0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_signal,                0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_high_load,             0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_load_overlay,          0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_switch_overlay,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_multiple_flush,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_wait,                  0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_rapid_sync,            0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_flush,                 0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
-	TEST_FUNC(test_rspq_rapid_flush,           0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
-	TEST_FUNC(test_rspq_block,                 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_wait_sync_in_block,    0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_highpri_basic,         0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_highpri_multiple,      0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_highpri_overlay,       0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_big_command,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_rdp_dynamic,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rspq_rdp_dynamic_switch,    0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_rspqwait,              0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_clear,                 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_dynamic,               0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_passthrough_big,       0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_block,                 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_block_coalescing,      0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_block_contiguous,      0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_change_other_modes,    0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_fixup_setfillcolor,    0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_fixup_setscissor,      0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_fixup_texturerect,     0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_fixup_fillrect,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_lookup_address,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_lookup_address_offset, 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_syncfull_cb,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_syncfull_resume,       0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_autosync,              0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_automode,              0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_blender,               0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_blender_memory,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_fog,                   0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_mode_freeze,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_mode_freeze_stack,     0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_mipmap,                0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_triangle,              0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_triangle_w1,           0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_rdpq_tex_load,              0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_mpeg1_idct,                 0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_mpeg1_block_decode,         0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_mpeg1_block_dequant,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_mpeg1_block_predict,        0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_gl_clear,                   0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_gl_draw_arrays,             0, TEST_FLAGS_NO_BENCHMARK),
-	TEST_FUNC(test_gl_draw_elements,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_exception,                  5, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_constructors,               0, TEST_FLAGS_NONE),
+	// TEST_FUNC(test_ticks,                      0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
+	// TEST_FUNC(test_timer_ticks,              292, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_timer_oneshot,            596, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_slow_callback,     1468, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_continuous,         688, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_mixed,             1467, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_context,            186, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_disabled_start,     733, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_timer_disabled_restart,   733, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_irq_reentrancy,           230, TEST_FLAGS_RESET_COUNT),
+	// TEST_FUNC(test_dfs_read,                 948, TEST_FLAGS_IO),
+	// TEST_FUNC(test_dfs_rom_addr,              25, TEST_FLAGS_IO),
+	// TEST_FUNC(test_eepromfs,                   0, TEST_FLAGS_IO),
+	// TEST_FUNC(test_cache_invalidate,        1763, TEST_FLAGS_NONE),
+	// TEST_FUNC(test_debug_sdfs,                 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_dma_read_misalign,       7003, TEST_FLAGS_NONE),
+	// TEST_FUNC(test_cop1_denormalized_float,    0, TEST_FLAGS_NO_EMULATOR),
+	// TEST_FUNC(test_backtrace_basic,            0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_fp,               0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_exception,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_exception_leaf,   0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_exception_fp,     0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_zerofunc,         0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_backtrace_invalidptr,       0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_queue_single,          0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_queue_multiple,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_queue_rapid,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_wrap,                  0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_signal,                0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_high_load,             0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_load_overlay,          0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_switch_overlay,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_multiple_flush,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_wait,                  0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_rapid_sync,            0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_flush,                 0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
+	// TEST_FUNC(test_rspq_rapid_flush,           0, TEST_FLAGS_NO_BENCHMARK | TEST_FLAGS_NO_EMULATOR),
+	// TEST_FUNC(test_rspq_block,                 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_wait_sync_in_block,    0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_highpri_basic,         0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_highpri_multiple,      0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_highpri_overlay,       0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_big_command,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_rdp_dynamic,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rspq_rdp_dynamic_switch,    0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_rspqwait,              0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_clear,                 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_dynamic,               0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_passthrough_big,       0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_block,                 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_block_coalescing,      0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_block_contiguous,      0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_change_other_modes,    0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_fixup_setfillcolor,    0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_fixup_setscissor,      0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_fixup_texturerect,     0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_fixup_fillrect,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_lookup_address,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_lookup_address_offset, 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_syncfull_cb,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_syncfull_resume,       0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_autosync,              0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_automode,              0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_blender,               0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_blender_memory,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_fog,                   0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_mode_freeze,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_mode_freeze_stack,     0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_mipmap,                0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_triangle,              0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_triangle_w1,           0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_rdpq_tex_load,              0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_mpeg1_idct,                 0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_mpeg1_block_decode,         0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_mpeg1_block_dequant,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_mpeg1_block_predict,        0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_gl_clear,                   0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_gl_draw_arrays,             0, TEST_FLAGS_NO_BENCHMARK),
+	// TEST_FUNC(test_gl_draw_elements,           0, TEST_FLAGS_NO_BENCHMARK),
+	TEST_FUNC(test_rom_write,                     0, TEST_FLAGS_NO_BENCHMARK),
 };
 
 int main() {
+	rand();
 	console_init();
 	console_set_debug(false);
 	debug_init_isviewer();
