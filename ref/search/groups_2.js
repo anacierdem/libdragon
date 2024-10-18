@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['console_20support_0',['Console Support',['../group__console.html',1,'']]],
-  ['controller_20subsystem_1',['Controller Subsystem',['../group__controller.html',1,'']]]
+  ['backtrace_20call_20stack_20support_0',['Backtrace (call stack) support',['../group__backtrace.html',1,'']]],
+  ['bundle_20support_1',['ROM bundle support',['../group__rompak.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['dir_5ft_0',['dir_t',['../group__system.html#structdir__t',1,'']]],
-  ['directory_5fentry_1',['directory_entry',['../group__dfs.html#structdirectory__entry',1,'']]]
+  ['backtrace_5fframe_5ft_0',['backtrace_frame_t',['../group__backtrace.html#structbacktrace__frame__t',1,'']]],
+  ['bt_5ffunc_5ft_1',['bt_func_t',['../structbt__func__t.html',1,'']]]
 ];

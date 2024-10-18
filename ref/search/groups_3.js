@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['debugging_20support_0',['Debugging Support',['../group__debug.html',1,'']]],
-  ['display_20subsystem_1',['Display Subsystem',['../group__display.html',1,'']]],
-  ['dma_20controller_2',['DMA Controller',['../group__dma.html',1,'']]],
-  ['dragonfs_3',['DragonFS',['../group__dfs.html',1,'']]]
+  ['call_20stack_20support_0',['Backtrace (call stack) support',['../group__backtrace.html',1,'']]],
+  ['clock_20subsystem_1',['Real-Time Clock Subsystem',['../group__rtc.html',1,'']]],
+  ['console_20support_2',['Console Support',['../group__console.html',1,'']]],
+  ['controller_3',['controller',['../group__dma.html',1,'DMA Controller'],['../group__interrupt.html',1,'Interrupt Controller']]],
+  ['controller_20pak_20filesystem_20routines_4',['Controller Pak Filesystem Routines',['../group__controllerpak.html',1,'']]],
+  ['controller_20subsystem_5',['Controller Subsystem',['../group__controller.html',1,'']]],
+  ['coprocessor_6',['RSP: vector coprocessor',['../group__rsp.html',1,'']]]
 ];

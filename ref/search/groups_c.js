@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['real_2dtime_20clock_20subsystem_0',['Real-Time Clock Subsystem',['../group__rtc.html',1,'']]],
-  ['rsp_20interface_1',['RSP interface',['../group__rsp.html',1,'']]]
+  ['math_20routines_0',['Fast math routines',['../group__fastmath.html',1,'']]],
+  ['mixer_1',['Audio mixer',['../group__mixer.html',1,'']]]
 ];

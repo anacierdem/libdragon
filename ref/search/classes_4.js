@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['eepfs_5fentry_5ft_0',['eepfs_entry_t',['../eepromfs_8h.html#structeepfs__entry__t',1,'']]],
-  ['eepfs_5ffile_5ft_1',['eepfs_file_t',['../eepromfs_8c.html#structeepfs__file__t',1,'']]],
-  ['entry_5fstructure_5ft_2',['entry_structure_t',['../group__mempak.html#structentry__structure__t',1,'']]],
-  ['exception_5ft_3',['exception_t',['../group__exceptions.html#structexception__t',1,'']]]
+  ['channel_5flimit_5ft_0',['channel_limit_t',['../mixer_8c.html#structchannel__limit__t',1,'']]],
+  ['color_5ft_1',['color_t',['../group__graphics.html#structcolor__t',1,'']]],
+  ['colorcombiner_5ft_2',['colorcombiner_t',['../rdpq__debug_8c.html#structcolorcombiner__t',1,'']]]
 ];

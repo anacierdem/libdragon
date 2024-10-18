@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['new_5fgbc_5ftitle_0',['new_gbc_title',['../tpak_8h.html#structnew__gbc__title',1,'']]]
+  ['header_5ft_0',['header_t',['../rompak_8c.html#structheader__t',1,'']]]
 ];

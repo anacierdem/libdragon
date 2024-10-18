@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['timer_20subsystem_0',['Timer Subsystem',['../group__timer.html',1,'']]],
-  ['transfer_20pak_20interface_1',['Transfer Pak interface',['../group__transferpak.html',1,'']]]
+  ['n64_20system_20interface_0',['N64 System Interface',['../group__n64sys.html',1,'']]],
+  ['newlib_20interface_20hooks_1',['newlib Interface Hooks',['../group__system.html',1,'']]]
 ];

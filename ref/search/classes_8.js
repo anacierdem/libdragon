@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['mi_5fregs_5ft_0',['MI_regs_t',['../group__lowlevel.html#structMI__regs__t',1,'']]],
-  ['mixer_5fchannel_5ft_1',['mixer_channel_t',['../mixer_8c.html#structmixer__channel__t',1,'']]],
-  ['mixer_5fevent_5ft_2',['mixer_event_t',['../mixer_8c.html#structmixer__event__t',1,'']]]
+  ['gameboy_5fcartridge_5fheader_0',['gameboy_cartridge_header',['../tpak_8h.html#structgameboy__cartridge__header',1,'']]],
+  ['gameboy_5fcartridge_5fheader_2e_5f_5funnamed44_5f_5f_1',['gameboy_cartridge_header.__unnamed44__',['../tpak_8h.html#uniongameboy__cartridge__header_8____unnamed44____',1,'']]]
 ];
